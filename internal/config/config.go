@@ -29,10 +29,6 @@ func (c *Config) Load() error {
 	c.VaultToken = getEnv("VAULT_TOKEN", "root")
 	c.VaultAddr = getEnv("VAULT_ADDR", "http://localhost:8200")
 
-	if c.VaultPath == "" {
-		c.VaultPath = getEnv("VAULT_DB_PATH", "database/config")
-	}
-
 	// Review API
 	c.ReviewAPI.URL = getEnv("REVIEW_API_URL", "http://")
 

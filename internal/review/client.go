@@ -244,7 +244,11 @@ func (c *Client) SetBaseURL(baseURL string) {
 }
 
 // AnalyzeSystemMetrics sends system metrics for analysis
-func (c *Client) AnalyzeSystemMetrics(ctx context.Context, metrics collectors.SystemMetrics, serverInfo models.ServerInfo, environment string) (*models.Recommendation, error) {
+func (c *Client) AnalyzeSystemMetrics(ctx context.Context, metrics collectors.SystemMetrics, 
+	serverInfo models.ServerInfo, environment string, isSchedulerTask bool) (*models.Recommendation, error) {
+	if isSchedulerTask {
+		c.baseURL = c.BaseURL() + "/scheduler"
+	}
 	url := fmt.Sprintf("%s/config/analyze", c.baseURL)
 
 	// Create request body

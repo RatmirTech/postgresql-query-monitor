@@ -9,9 +9,10 @@ import (
 
 // SQLFile представляет собой SQL-файл с его именем и содержимым
 type SQLFile struct {
-	Title   string
-	Content string
-	Path    string
+	Title       string
+	Content     string
+	Path        string
+	IsMigration bool
 }
 
 // SearchMode определяет режим поиска
@@ -110,9 +111,10 @@ func collectMigrations(config SearchConfig) ([]SQLFile, error) {
 
 			title := makeUniqueTitle(files, filepath.Base(path), path)
 			files = append(files, SQLFile{
-				Title:   title,
-				Content: string(content),
-				Path:    path,
+				Title:       title,
+				Content:     string(content),
+				Path:        path,
+				IsMigration: true,
 			})
 		}
 		return nil
@@ -152,9 +154,10 @@ func collectSpecificFiles(config SearchConfig) ([]SQLFile, error) {
 
 				title := makeUniqueTitle(files, filepath.Base(path), path)
 				files = append(files, SQLFile{
-					Title:   title,
-					Content: string(content),
-					Path:    path,
+					Title:       title,
+					Content:     string(content),
+					Path:        path,
+					IsMigration: false,
 				})
 			}
 		}
@@ -189,9 +192,10 @@ func collectAllSQLFiles(config SearchConfig) ([]SQLFile, error) {
 
 			title := makeUniqueTitle(files, filepath.Base(path), path)
 			files = append(files, SQLFile{
-				Title:   title,
-				Content: string(content),
-				Path:    path,
+				Title:       title,
+				Content:     string(content),
+				Path:        path,
+				IsMigration: false,
 			})
 		}
 		return nil
