@@ -18,6 +18,9 @@ services:
       - "8200:8200"
     cap_add:
       - IPC_LOCK
+    volumes:
+      - vault_data:/vault
 
 volumes:
   prometheus_data:
+  vault_data:

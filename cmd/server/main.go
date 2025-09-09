@@ -21,7 +21,7 @@ type CollectRequest struct {
 
 func RunServer() {
 	// Prometheus manager
-	manager := pm.NewManager()
+	manager := pm.New()
 
 	// Vault-адрес
 	vaultAddr := "http://127.0.0.1:8200"

@@ -1,0 +1,4 @@
+PostgreSQL Server Information
+============================
+
+{"config":{"shared_buffers":"16384","effective_cache_size":"524288","maintenance_work_mem":"65536","checkpoint_completion_target":"0.9","wal_buffers":"512","default_statistics_target":"100","random_page_cost":"4","effective_io_concurrency":"0","work_mem":"4096","min_wal_size":"80","max_wal_size":"1024"},"environment":"production","server_info":{"Version":"PostgreSQL 17.6 on x86_64-apple-darwin23.6.0, compiled by Apple clang version 16.0.0 (clang-1600.0.26.6), 64-bit","Host":"::1/128","Database":"postgres"}}

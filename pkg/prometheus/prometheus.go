@@ -10,27 +10,17 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-// MetricType описывает тип метрики
-type MetricType int
-
-// Перечисление типов метрик Prometheus.
-const (
-	Gauge     MetricType = iota // Gauge — метрика, отражающая текущее значение.
-	Counter                     // Counter — счетчик, только увеличивается.
-	Histogram                   // Histogram — распределение значений по корзинам.
-)
-
-// PrometheusManager централизованно управляет метриками
-type PrometheusManager struct {
+// Manager централизованно управляет метриками Prometheus
+type Manager struct {
 	mutex      sync.RWMutex
 	gauges     map[string]*prometheus.GaugeVec
 	counters   map[string]*prometheus.CounterVec
 	histograms map[string]*prometheus.HistogramVec
 }
 
-// NewManager создаёт новый PrometheusManager
-func NewManager() *PrometheusManager {
-	return &PrometheusManager{
+// New создаёт новый Manager
+func New() *Manager {
+	return &Manager{
 		gauges:     make(map[string]*prometheus.GaugeVec),
 		counters:   make(map[string]*prometheus.CounterVec),
 		histograms: make(map[string]*prometheus.HistogramVec),
@@ -38,7 +28,7 @@ func NewManager() *PrometheusManager {
 }
 
 // RegisterGauge регистрирует Gauge метрику с динамическими labels
-func (m *PrometheusManager) RegisterGauge(name, help string, labels []string) *prometheus.GaugeVec {
+func (m *Manager) RegisterGauge(name, help string, labels []string) *prometheus.GaugeVec {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
@@ -56,7 +46,7 @@ func (m *PrometheusManager) RegisterGauge(name, help string, labels []string) *p
 }
 
 // RegisterCounter регистрирует Counter метрику с labels
-func (m *PrometheusManager) RegisterCounter(name, help string, labels []string) *prometheus.CounterVec {
+func (m *Manager) RegisterCounter(name, help string, labels []string) *prometheus.CounterVec {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
@@ -74,7 +64,7 @@ func (m *PrometheusManager) RegisterCounter(name, help string, labels []string) 
 }
 
 // RegisterHistogram регистрирует Histogram метрику с labels
-func (m *PrometheusManager) RegisterHistogram(name, help string, labels []string, buckets []float64) *prometheus.HistogramVec {
+func (m *Manager) RegisterHistogram(name, help string, labels []string, buckets []float64) *prometheus.HistogramVec {
 	m.mutex.Lock()
 	defer m.mutex.Unlock()
 
@@ -93,7 +83,7 @@ func (m *PrometheusManager) RegisterHistogram(name, help string, labels []string
 }
 
 // SetGauge устанавливает значение Gauge с указанными label
-func (m *PrometheusManager) SetGauge(name string, labels prometheus.Labels, value float64) error {
+func (m *Manager) SetGauge(name string, labels prometheus.Labels, value float64) error {
 	m.mutex.RLock()
 	defer m.mutex.RUnlock()
 
@@ -107,7 +97,7 @@ func (m *PrometheusManager) SetGauge(name string, labels prometheus.Labels, valu
 }
 
 // IncCounter увеличивает Counter с указанными label
-func (m *PrometheusManager) IncCounter(name string, labels prometheus.Labels, delta float64) error {
+func (m *Manager) IncCounter(name string, labels prometheus.Labels, delta float64) error {
 	m.mutex.RLock()
 	defer m.mutex.RUnlock()
 
@@ -121,7 +111,7 @@ func (m *PrometheusManager) IncCounter(name string, labels prometheus.Labels, de
 }
 
 // ObserveHistogram добавляет наблюдение в Histogram с label
-func (m *PrometheusManager) ObserveHistogram(name string, labels prometheus.Labels, value float64) error {
+func (m *Manager) ObserveHistogram(name string, labels prometheus.Labels, value float64) error {
 	m.mutex.RLock()
 	defer m.mutex.RUnlock()
 

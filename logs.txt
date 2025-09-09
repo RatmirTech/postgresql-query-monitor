@@ -1,0 +1,4 @@
+PostgreSQL Query Logs (Last 2025-09-06 18:06:59)
+==================================
+
+No slow queries found in the specified time window.

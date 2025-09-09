@@ -16,12 +16,12 @@ import (
 )
 
 type Collector struct {
-	promManager *pm.PrometheusManager
+	promManager *pm.Manager
 	vaultAddr   string
 	vaultClient *hvault.Client
 }
 
-func NewCollector(vaultAddr string, promManager *pm.PrometheusManager) *Collector {
+func NewCollector(vaultAddr string, promManager *pm.Manager) *Collector {
 	// инициализация метрик и логгера
 	metrics.InitDefaultMetrics(promManager)
 	logger.Init()
