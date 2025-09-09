@@ -60,10 +60,15 @@ var csiCmd = &cobra.Command{
 
 		analyzerClient := client.NewClient(cfg.ReviewAPI.URL)
 
-		_, err = analyzerClient.AnalyzeConfig(ctx, info, isSchedulerTask)
+		log.Default().Println("✅ Collected server info, sending for analysis...")
+		log.Default().Printf("Server info: %+v", info)
+
+		report, err := analyzerClient.AnalyzeConfig(ctx, info, isSchedulerTask)
 		if err != nil {
 			log.Fatalf("Failed to analyze config: %v", err)
 		}
+
+		log.Default().Printf("✅ Received recommendation: %+v", report)
 	},
 }
 
